@@ -72,11 +72,11 @@ const testimonials = [
 
 export default function CustomerReviewSwiper() {
     return (
-        <div className="bg-gray-100 py-12 px-4 text-center">
-            <h2 className="text-2xl md:text-3xl font-bold text-teal-900 mb-2">
+        <div className=" py-12 px-4 text-center">
+            <h2 className="text-2xl md:text-3xl font-bold  mb-2">
                 What our customers are saying
             </h2>
-            <p className="text-gray-600 mb-8 max-w-2xl mx-auto">
+            <p className=" mb-8 max-w-2xl mx-auto">
                 Enhance posture, mobility, and well-being effortlessly with Posture Pro. Achieve proper alignment, reduce pain, and strengthen your body with ease!
             </p>
 

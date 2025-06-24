@@ -1,9 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router';
-
+import { motion } from 'framer-motion';
 const FaQ = () => {
   return (
-    <div className="max-w-4xl mx-auto my-10 px-4">
+    <motion.div className="max-w-4xl mx-auto my-10 px-4"
+          initial={{ opacity: 0, y: 50 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 1, ease: 'easeOut' }}
+      viewport={{ once: true }}
+    >
       <h2 className="text-3xl font-bold text-center mb-6 ">Frequently Asked Questions</h2>
 <p className='text-center py-5'>Enhance posture, mobility, and well-being effortlessly with Posture Pro. Achieve proper alignment, reduce pain, and strengthen your body with ease!</p>
       <div className="space-y-4">
@@ -49,7 +54,7 @@ const FaQ = () => {
         </div>
       </div>
       <div className='grid items-center justify-center md:mt-5 '><Link to='/FaQ' className='btn bg-[#CAEB66] text-black'>See more FaQ</Link></div>
-    </div>
+    </motion.div>
   );
 };
 

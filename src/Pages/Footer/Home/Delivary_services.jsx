@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 
 const ServiceCard = ({ image, title, description }) => (
   <div className="flex items-center md:gap-6 md:py-20 md:px-20 bg-gray-100 rounded-xl shadow-sm mb-6">
@@ -14,7 +15,12 @@ const ServiceCard = ({ image, title, description }) => (
 
 const FeaturesSection = () => {
   return (
-    <div className="w-10/14 mx-auto py-10 px-4">
+    <motion.div className="w-10/14 mx-auto py-10 px-4"
+          initial={{ opacity: 0, y: 50 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.8, ease: 'easeOut' }}
+      viewport={{ once: true }}
+    >
       <ServiceCard
         image="https://static.vecteezy.com/system/resources/previews/010/575/080/non_2x/parcel-tracking-icon-logo-illustration-track-order-symbol-template-for-graphic-and-web-design-collection-free-vector.jpg"
         title="Live Parcel Tracking"
@@ -30,7 +36,7 @@ const FeaturesSection = () => {
         title="24/7 Call Center Support"
         description="Our dedicated support team is available around the clock to assist you with any questions, updates, or delivery concerns—anytime you need us."
       />
-    </div>
+    </motion.div>
   );
 };
 
