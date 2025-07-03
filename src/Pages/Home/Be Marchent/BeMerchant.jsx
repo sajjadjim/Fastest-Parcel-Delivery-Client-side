@@ -1,5 +1,5 @@
 import React from 'react';
-import location from '../../../../../public/location-merchant.png'
+import location from '../../../../public/location-merchant.png'
 
 const BeMerchant = () => {
     return (

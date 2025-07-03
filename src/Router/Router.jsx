@@ -10,6 +10,10 @@ import Login from "../Pages/Authentication/Login/Login";
 import Register from "../Pages/Authentication/Register/Register";
 import Coverage from "../Pages/Coverage Area/Coverage";
 import PrivateRoute from "../Routers/PrivateRoute";
+import AddParcel from "../Pages/Add Parcel/AddParcel";
+import DashBoardLayout from "../Layout/DashBoardLayout";
+import MyParcels from "../Pages/Dashboard/MyParcels/MyParcels";
+
 
 
 const router = createBrowserRouter([
@@ -27,9 +31,15 @@ const router = createBrowserRouter([
         Component: AllFaQ
       },
       {
-        path:'/coverage',
+        path: '/coverage',
         element: <PrivateRoute><Coverage></Coverage></PrivateRoute>,
-        loader:() => fetch('../../public/DataAll/areaMap.json')
+        loader: () => fetch('../../public/DataAll/areaMap.json')
+      },
+      // add parcel components 
+      {
+        path: '/addparcel',
+        element: <PrivateRoute><AddParcel></AddParcel></PrivateRoute>,
+        loader: () => fetch('../../public/DataAll/areaMap.json')
       }
     ]
   },
@@ -44,8 +54,19 @@ const router = createBrowserRouter([
         Component: Login
       },
       {
-        path:'/register',
+        path: '/register',
         Component: Register
+      }
+    ]
+  },
+  // Authentication Layouts Components 
+  {
+    path: '/dashboard',
+    element: <PrivateRoute><DashBoardLayout></DashBoardLayout></PrivateRoute>,
+    children: [
+      {
+        path: 'myParcels',
+        Component: MyParcels
       }
     ]
   }

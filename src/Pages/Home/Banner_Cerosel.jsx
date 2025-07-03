@@ -2,9 +2,9 @@ import React from 'react';
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from 'react-responsive-carousel';
 // import image all 
-import image1 from '../../../../public/banner/banner1.png'
-import image2 from '../../../../public/banner/banner2.png'
-import image3 from '../../../../public/banner/banner3.png'
+import image1 from '../../../public/banner/banner1.png'
+import image2 from '../../../public/banner/banner2.png'
+import image3 from '../../../public/banner/banner3.png'
 
 const Banner_Cerosel = () => {
     return (

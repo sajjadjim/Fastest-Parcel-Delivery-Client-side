@@ -1,13 +1,15 @@
 import React, { use } from 'react';
 import { NavLink } from 'react-router';
-import FastestDelivarylogo from '../../../Shared/WebsiteLogo/FastestDelivarylogo';
+import FastestDelivarylogo from   '../../Shared/WebsiteLogo/FastestDelivarylogo';
 import { Link } from 'react-router';
 // import {useAuth} from '../../../Hooks/useAuth'
-import { AuthContext } from '../../../Context/AuthContext';
+import { AuthContext } from '../../Context/AuthContext';
 
 const Navbar = () => {
-  const {user , logOut} = use(AuthContext);
+  
+  const {user , logOut } = use(AuthContext);
 
+  // console.log(authInfo)
   // logout the user from website 
   const handleLogOut = ()=>{
     logOut()
@@ -15,7 +17,16 @@ const Navbar = () => {
 
     const navItems = <>
     <li><NavLink to='/'>Home</NavLink></li>
+<li><NavLink to='/addparcel'>Add Parcel</NavLink></li>
+{
+  user  && 
+  <>
+  <li><NavLink to='/dashboard'>Dashboard</NavLink></li>
+  </>
+}
 <li><NavLink to='/coverage'>Coverage</NavLink></li>
+
+
     </>
     return (
         <div className="navbar bg-base-100 shadow-sm">

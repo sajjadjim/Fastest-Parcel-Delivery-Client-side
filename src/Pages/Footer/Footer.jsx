@@ -1,5 +1,5 @@
 import React from 'react';
-import FastestDelivarylogo from '../../../../Shared/WebsiteLogo/FastestDelivarylogo';
+import FastestDelivarylogo from '../../Shared/WebsiteLogo/FastestDelivarylogo';
 import { FaFacebook } from "react-icons/fa";
 import { IoLogoYoutube } from "react-icons/io5";
 import { FaSquareTwitter } from "react-icons/fa6";

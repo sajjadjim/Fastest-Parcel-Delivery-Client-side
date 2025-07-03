@@ -12,7 +12,21 @@ const PrivateRoute = ({ children }) => {
 
 
     if (loading) {
-        return <span className="loading loading-spinner loading-xl"></span>
+        const [showSpinner, setShowSpinner] = React.useState(true);
+
+        React.useEffect(() => {
+            const timer = setTimeout(() => setShowSpinner(false), 1000);
+            return () => clearTimeout(timer);
+        }, []);
+
+        if (showSpinner) {
+            return (
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
+                <span className="loading loading-spinner loading-xl"></span>
+            </div>
+            );
+        }
+        return null;
     }
 
     if (user && user?.email) {

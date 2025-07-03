@@ -1,12 +1,19 @@
 import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import useAuth from '../../../../Hooks/useAuth';
+import useAuth from '../../../Hooks/useAuth';
 import { Link } from 'react-router';
+import { useLocation } from 'react-router';
+import { useNavigate } from 'react-router';
 
 const Register = () => {
         useEffect(() => {
             document.title = "Register";
         }, [])
+
+        
+    const location = useLocation()
+    const navigate = useNavigate()
+
     const { register
         , handleSubmit
     } = useForm();
@@ -18,6 +25,9 @@ const Register = () => {
         createUser(data.email, data.password)
             .then(result => {
                 console.log(result)
+                setTimeout(()=>{
+                navigate(`${location.state ? location.state : '/login'}`)
+            },1000)
             })
             .catch(error => {
                 console.log(error)
@@ -29,6 +39,10 @@ const Register = () => {
         signInWithGoogle()
             .then(result => {
                 console.log(result)
+                 // after 1 seconds automatic navigate the user homepage  || user last Page 
+            setTimeout(()=>{
+                navigate(`${location.state ? location.state : '/'}`)
+            },2000)
             }).catch(errro => {
                 console.log(errro)
             })

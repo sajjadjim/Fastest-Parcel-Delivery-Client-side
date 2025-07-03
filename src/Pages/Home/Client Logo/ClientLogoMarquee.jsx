@@ -1,13 +1,13 @@
 import React from "react";
 import Marquee from 'react-fast-marquee';
 
-import amazon from '../../../../../public/brands/amazon.png';
-import google from '../../../../../public/brands/amazon_vector.png';
-import casio from '../../../../../public/brands/casio.png';
-import moonstar from '../../../../../public/brands/moonstar.png';
-import start from '../../../../../public/brands/start.png';
-import randstad from '../../../../../public/brands/start-people 1.png';
-import people from '../../../../../public/brands/randstad.png';
+import amazon from '../../../../public/brands/amazon.png';
+import google from '../../../../public/brands/amazon_vector.png';
+import casio from '../../../../public/brands/casio.png';
+import moonstar from '../../../../public/brands/moonstar.png';
+import start from '../../../../public/brands/start.png';
+import randstad from '../../../../public/brands/start-people 1.png';
+import people from '../../../../public/brands/randstad.png';
 
 const logos = [amazon, google, casio, moonstar, start, randstad, people];
 

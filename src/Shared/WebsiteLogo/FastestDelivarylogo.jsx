@@ -6,7 +6,7 @@ const FastestDelivarylogo = () => {
        <Link to='/'>
         <div className='flex items-end'>
             <img src={logo} alt="" />
-            <p className='md:text-2xl md:font-bold text-[15px]'>Fastest Parcel Delivary </p>
+            <p className='md:text-2xl md:font-bold text-[15px]'><span className='text-[#CAEB66]'>Pick</span><span className=''>On</span> </p>
         </div>
        </Link>
     );

@@ -107,7 +107,7 @@ export default function CustomerReviewSwiper() {
                     <SwiperSlide key={index}>
                         <div className="bg-white rounded-xl p-6 shadow-md text-left min-h-[220px] mx-auto max-w-sm">
                             <p className="text-3xl text-teal-500 mb-2">“</p>
-                            <p className="text-sm text-gray-700 mb-4">{item.text}</p>
+                            <p className="text-sm  mb-4">{item.text}</p>
                             <hr className="border-dotted border-t-2 border-gray-300 mb-4" />
                             <div className="flex items-center gap-3">
                                 <div className="w-10 h-10 bg-gray-300 rounded-full overflow-hidden">
