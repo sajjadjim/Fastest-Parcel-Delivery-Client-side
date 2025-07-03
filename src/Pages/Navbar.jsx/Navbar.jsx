@@ -1,11 +1,21 @@
-import React from 'react';
+import React, { use } from 'react';
 import { NavLink } from 'react-router';
 import FastestDelivarylogo from '../../../Shared/WebsiteLogo/FastestDelivarylogo';
+import { Link } from 'react-router';
+// import {useAuth} from '../../../Hooks/useAuth'
+import { AuthContext } from '../../../Context/AuthContext';
 
 const Navbar = () => {
+  const {user , logOut} = use(AuthContext);
+
+  // logout the user from website 
+  const handleLogOut = ()=>{
+    logOut()
+  }
+
     const navItems = <>
     <li><NavLink to='/'>Home</NavLink></li>
-
+<li><NavLink to='/coverage'>Coverage</NavLink></li>
     </>
     return (
         <div className="navbar bg-base-100 shadow-sm">
@@ -28,7 +38,10 @@ const Navbar = () => {
     </ul>
   </div>
   <div className="navbar-end">
-    <a className="btn">Button</a>
+    {
+      user ? <Link onClick={handleLogOut}  className='btn-primary btn text-black'>Logout</Link> :
+      <Link to='/login' className='btn-primary btn text-black'>Login</Link>
+    }
   </div>
 </div>
     );
