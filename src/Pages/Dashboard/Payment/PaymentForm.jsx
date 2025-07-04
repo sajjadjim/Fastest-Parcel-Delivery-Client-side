@@ -1,36 +1,120 @@
 import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
+import { useQuery } from '@tanstack/react-query';
 import React from 'react';
+import { useParams } from 'react-router';
+import UseAxiosSecure from '../../../Hooks/UseAxiosSecure';
+import { use } from 'react';
+import { AuthContext } from '../../../Context/AuthContext';
+import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router';
 
 const PaymentForm = () => {
+
+    const { user } = use(AuthContext)
+    const navigate = useNavigate();
+    const axiosSecure = UseAxiosSecure()
 
     // taken from react stripe docs 
     const stripe = useStripe()
     const elements = useElements()
 
+    const { parcelId } = useParams();
+
+
+    // Data tank using TransSteck query 
+    const { data: parcelPaymentInfo } = useQuery({
+        queryKey: ['parcel', parcelId],
+        queryFn: async () => {
+            const res = await axiosSecure(`parcels/${parcelId}`)
+            return res.data
+        }
+    })
+
+    // console.log(parcelPaymentInfo)
+    const amount = parcelPaymentInfo?.deliveryCharge.amount;
+    const amountInCents = amount * 100; // Convert to cents for Stripe
+    // console.log("Amount in Cents", amountInCents)
+
+
     // control here the form submit button data for payment method system 
-    const handleSubmit = async(e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // if your have don't payment elements your can not payment 
+        // if your have don't payment elements your can not payment  if user have don't payment elements then return
         if (!stripe || !elements)
             return;
 
         const card = elements.getElement(CardElement);
 
-        if(!card){
+        if (!card) {
             return
         }
 
-        const {erro , paymentMethod} = await stripe.createPaymentMethod({
-            type :'card',
+        // step -1 : Validation the card information 
+        const { erro, paymentMethod } = await stripe.createPaymentMethod({
+            type: 'card',
             card,
         })
 
-        if(erro){
+        if (erro) {
             console.log(erro)
         }
-        else{
-            console.log("Payment method" , paymentMethod)
+        else {
+            console.log("Payment method", paymentMethod)
+            // step-2 : Payment intent creation
+        const res = await axiosSecure.post('/create-payment-intent', {
+            amountInCents,
+            parcelId
+        });
+        // console.log("Intent send Backend ", res)
+
+        const clientSecret = res.data.clientSecret;
+
+        // step-3: confirm payment
+        const result = await stripe.confirmCardPayment(clientSecret, {
+            payment_method: {
+                card: elements.getElement(CardElement),
+                billing_details: {
+                    name: user.displayName,
+                    email: user.email
+                },
+            },
+        });
+        // AFter payment done show the massage 
+        if (result.error) {
+            setError(result.error.message);
+        } else {
+            setError('');
+            if (result.paymentIntent.status === 'succeeded') {
+                console.log('Payment succeeded Done ✅!');
+                // console.log(result)
+                // payment data on the store and history that show the payment success message
+                const paymentData = {
+                    parcelId,
+                    parcelName: parcelPaymentInfo?.parcelName,
+                    email: user.email,
+                    amount: amount,
+                    transactionId: result.paymentIntent.id,
+                    paymentMethod: result.paymentIntent.payment_method_types?.[0] || result.type,
+                }
+                // console.log(paymentData)
+                const paymentRes = await axiosSecure.post('/payments', paymentData);
+                console.log("Payment data send to backend", paymentRes.data);
+                if(paymentRes.data.insertedId) {
+                    // ✅ Show SweetAlert with transaction ID
+                        await Swal.fire({
+                            icon: 'success',
+                            title: 'Payment Successful!',
+                            html: `<strong>Transaction ID:</strong> <code>${paymentData.transactionId}</code>`,
+                            confirmButtonText: 'Go to My Parcels',
+                        });
+
+                        // ✅ Redirect to /myParcels
+                        navigate('/dashboard/myParcels');
+                    // Optionally, redirect or update UI here
+                }
+            }
+        }
         }
 
     }
@@ -78,11 +162,10 @@ const PaymentForm = () => {
                 <button
                     type='submit'
                     disabled={!stripe}
-                    className={`w-full py-3 btn-primary text-gray-600 rounded-lg font-bold text-lg shadow-md transition-all ${
-                        !stripe ? "opacity-50 cursor-not-allowed" : "hover:from-blue-700 hover:to-blue-600"
-                    }`}
+                    className={`w-full cursor-pointer py-3 btn-primary text-gray-600 rounded-lg font-bold text-lg shadow-md transition-all ${!stripe ? "opacity-50 cursor-not-allowed" : "hover:from-blue-700 hover:to-blue-600"
+                        }`}
                 >
-                    Pay For Parcel Pickup
+                    Pay {amount ? `$${amount}` : "0.00"}
                 </button>
                 <div className="text-xs text-gray-400 text-center mt-2">
                     Your payment is secure and encrypted.

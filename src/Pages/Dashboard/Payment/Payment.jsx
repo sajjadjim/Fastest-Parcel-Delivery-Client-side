@@ -3,7 +3,7 @@ import { loadStripe } from '@stripe/stripe-js';
 import React from 'react';
 import PaymentForm from './PaymentForm';
 
-const stripePromise = loadStripe('pk_test_qblFNYngBkEdjEZ16jxxoWSM');
+const stripePromise = loadStripe(import.meta.env.VITE_PAYMENT_KEY);
 const Payment = () => {
 
     return (

@@ -3,10 +3,12 @@ import { NavLink } from 'react-router';
 import { Outlet } from 'react-router';
 import FastestDelivarylogo from '../Shared/WebsiteLogo/FastestDelivarylogo';
 import { Link } from 'react-router';
+import { FaHome, FaBox, FaCreditCard, FaSearchLocation, FaUserEdit } from 'react-icons/fa';
+
 
 const DashBoardLayout = () => {
     return (
-     <div className="drawer lg:drawer-open">
+        <div className="drawer lg:drawer-open">
             <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
             <div className="drawer-content flex flex-col">
 
@@ -30,7 +32,7 @@ const DashBoardLayout = () => {
                         </label>
                     </div>
                     <div className="mx-2 flex-1 px-2 lg:hidden">Dashboard</div>
-                    
+
                 </div>
                 {/* Page content here */}
                 <Outlet></Outlet>
@@ -39,12 +41,34 @@ const DashBoardLayout = () => {
             </div>
             <div className="drawer-side">
                 <label htmlFor="my-drawer-2" aria-label="close sidebar" className="drawer-overlay"></label>
-                <ul className="menu bg-base-200 text-base-content min-h-full w-80 p-4"> 
-                    {/* Sidebar content here */}
-                    {/* <ProFastLogo></ProFastLogo> */}
+                <ul className="menu bg-base-200 text-base-content min-h-full w-80 p-4">
                     <FastestDelivarylogo></FastestDelivarylogo>
-                    <li><Link to='/'>Home</Link></li>
-                    <li><NavLink to="/dashboard/myParcels">My Parcels</NavLink></li>
+                    <li>
+                        <Link to='/' className="flex items-center gap-2">
+                            <FaHome /> Home
+                        </Link>
+                    </li>
+                    <li>
+                        <NavLink to="/dashboard/myParcels" className="flex items-center gap-2">
+                            <FaBox /> My Parcels
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink to="/dashboard/payment-history" className="flex items-center gap-2">
+                            <FaCreditCard /> Payment History
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink to="/dashboard/track-package" className="flex items-center gap-2">
+                            <FaSearchLocation /> Track Package
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink to="/dashboard/update-profile" className="flex items-center gap-2">
+                            <FaUserEdit /> Update Profile
+                        </NavLink>
+                    </li>
+
                 </ul>
             </div>
         </div>
