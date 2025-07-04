@@ -1,65 +1,103 @@
-# Fastest Parcel Delivery
+# 📦 PickOn Delivery System
 
-Welcome to **Fastest Parcel Delivery** – a modern web application for seamless, reliable, and lightning-fast parcel delivery services.
+A full-stack delivery management system built with the **MERN stack** (MongoDB, Express.js, React, Node.js). The platform supports both **document and product delivery**, and allows **users to become delivery agents**. This project is scalable, secure, and responsive.
 
-## 🚀 Features
+## 🔧 Features
 
-- **User-friendly Interface:** Simple and intuitive design for easy navigation.
-- **Real-time Tracking:** Track your parcels live from pickup to delivery.
-- **Secure Payments:** Multiple payment options with robust security.
-- **Order History:** View and manage all your past and current deliveries.
-- **Responsive Design:** Works perfectly on desktop, tablet, and mobile devices.
+### ✅ User Functionality
+- User registration & login (JWT auth)
+- Parcel sending (document/product)
+- Parcel tracking system with unique ID
+- View delivery status and history
+- Responsive UI (mobile & desktop)
 
-## 🛠️ Built With
+### 📮 Parcel Management
+- Add new parcels (weight, type, address, contact)
+- Auto-generate tracking ID
+- Select sender/receiver details
+- Assign parcels to warehouses and delivery agents
 
-- [React](https://react.dev/) – Frontend library for building user interfaces
-- [Vite](https://vitejs.dev/) – Next-generation frontend tooling
-- [React Router](https://reactrouter.com/) – Declarative routing for React
-- [Tailwind CSS](https://tailwindcss.com/) – Utility-first CSS framework
+### 🚴 Delivery Boy Dashboard
+- Register as a delivery person
+- View assigned deliveries
+- Mark parcels as delivered
+- Track earnings and performance
 
-## 🚚 Getting Started
+### 🛠 Admin Dashboard (if implemented)
+- Manage all users and parcels
+- Approve delivery boys
+- View reports and statistics
 
-1. **Clone the repository:**
-    ```bash
-    git clone https://github.com/your-username/fastest-parcel-delivery.git
-    cd fastest-parcel-delivery
-    ```
+## 🛠️ Tech Stack
 
-2. **Install dependencies:**
-    ```bash
-    npm install
-    ```
+| Tech            | Description                        |
+|-----------------|------------------------------------|
+| **MongoDB**     | NoSQL database for storing data    |
+| **Express.js**  | Backend API framework              |
+| **React.js**    | Frontend library                   |
+| **Node.js**     | Server environment                 |
+| **Firebase**    | Deployment or authentication (if used) |
+| **React Hook Form** | Efficient form handling       |
+| **Tailwind CSS** | Fast and modern UI styling       |
+| **Axios / React Query** | API communication & caching |
+| **Toastify / Modal** | Notifications & UI alerts     |
 
-3. **Start the development server:**
-    ```bash
-    npm run dev
-    ```
+## 🖼️ Screenshots
+> Add screenshots here for:
+- Add Parcel Form
+- Delivery Boy Dashboard
+- Admin Panel
+- Tracking Page
 
-4. **Open in your browser:**
-    ```
-    http://localhost:5173
-    ```
+## 🚀 Getting Started
 
-## 📦 Project Structure
+### 1. Clone the Repository
+```bash
+git clone https://github.com/yourusername/mern-delivery-system.git
+cd mern-delivery-system
+2. Setup Backend
+bash
+Copy
+Edit
+cd server
+npm install
+npm run dev
+3. Setup Frontend
+bash
+Copy
+Edit
+cd client
+npm install
+npm run dev
+4. Environment Variables
+Create .env files in both server/ and client/ directories with the necessary environment variables like:
 
-```
-src/
-├── components/
-├── pages/
-├── assets/
-├── App.jsx
-└── main.jsx
-```
+MONGO_URI
 
-## 🤝 Contributing
+JWT_SECRET
 
-Contributions are welcome! Please open an issue or submit a pull request.
+VITE_API_BASE_URL (frontend)
 
-## 📄 License
+🌍 Deployment
+Frontend: Firebase / Vercel / Netlify
 
-This project is licensed under the [MIT License](LICENSE).
+Backend: Render / Railway / Cyclic
+
+🙌 Author
+Sajjad Hossain Jim
+📧 sajjadjim15@gmail.com
+
+📜 License
+This project is open-source and available under the MIT License.
+
+⭐ If you like this project, feel free to star the repo and contribute!
+
+yaml
+Copy
+Edit
 
 ---
 
-> **Fastest Parcel Delivery** – Delivering your parcels at the speed of light!
+Let me know if you also want this split into multiple files (backend, frontend, .env.example, etc.) or want help deploying to Firebase/Render.
+
 

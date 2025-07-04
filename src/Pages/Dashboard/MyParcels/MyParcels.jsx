@@ -4,11 +4,13 @@ import { AuthContext } from '../../../Context/AuthContext';
 import UseAxiosSecure from '../../../Hooks/UseAxiosSecure';
 import Swal from 'sweetalert2';
 import { useState } from 'react';
+import { useNavigate } from 'react-router';
 
 const MyParcels = () => {
+    const navigate = useNavigate();
     const [parcels, setParcels] = useState([]);
     const { user } = use(AuthContext)
-    console.log("object", user?.email);
+    // console.log("object", user?.email);
     const axiosSecure = UseAxiosSecure()
     const { data: parcelsAll = [] } = useQuery({
         queryKey: ['myParcels', user?.email],
@@ -81,6 +83,12 @@ const MyParcels = () => {
         }
     };
 
+    // payment actione do here 
+    const handlePayment = (id) => {
+        // console.log("MPayment method is xlick now", id)
+        navigate(`/dashboard/payment/${id}`)
+    }
+
     return (
         <div className="p-4">
             <h2 className="text-xl md:text-2xl font-bold mb-4 text-center">
@@ -133,6 +141,16 @@ const MyParcels = () => {
                                     >
                                         Delete
                                     </button>
+                                    {/* if dont may then paid the products  */}
+                                    {
+                                        parcel.payment_status === "unpaid" && (
+                                            <button
+                                                className="px-2 md:px-3 py-1 cursor-pointer bg-blue-500 text-white rounded text-xs md:text-sm"
+                                                onClick={() => handlePayment(parcel._id)}
+                                            >
+                                                Pay Now
+                                            </button>
+                                        )}
                                 </td>
                             </tr>
                         ))}

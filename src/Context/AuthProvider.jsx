@@ -53,7 +53,7 @@ const AuthProvider = ({ children }) => {
         signInWithGoogle,
         logOut
     }
-    console.log("Current user :" , user)
+    // console.log("Current user :" , user)
     // console.log("Current user :" , user?.email)
 
     return (
