@@ -59,7 +59,7 @@ const BeARider = () => {
                     <motion.div
                         key={i}
                         whileHover={{ scale: 1.05 }}
-                        className="bg-white p-6 rounded-xl shadow hover:shadow-xl transition"
+                        className="bg-white text-black p-6 rounded-xl shadow hover:shadow-xl transition"
                     >
                         <div className="text-4xl mb-4">{item.icon}</div>
                         <h3 className="text-xl font-semibold mb-2">{item.title}</h3>

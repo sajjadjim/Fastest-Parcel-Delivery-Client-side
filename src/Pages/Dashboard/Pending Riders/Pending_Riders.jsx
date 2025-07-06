@@ -21,7 +21,7 @@ const Pending_Riders = () => {
         return '...loading'
     }
 
-    const handleDecision = async (id, action) => {
+    const handleDecision = async (id, action , email) => {
         const confirm = await Swal.fire({
             title: `${action === "approve" ? "Approve" : "Reject"} Application?`,
             icon: "warning",
@@ -33,8 +33,10 @@ const Pending_Riders = () => {
         if (!confirm.isConfirmed) return;
 
         try {
+            const status = action === "approve" ? "active" : "rejected"
             await axiosSecure.patch(`/riders/${id}/status`, {
-                status: action === "approve" ? "active" : "rejected",
+                status,
+                email,
             });
 
             refetch();
@@ -70,8 +72,8 @@ const Pending_Riders = () => {
                                 <td>{rider.email}</td>
                                 <td>{rider.region}</td>
                                 <td>{rider.city}</td>
-                                <td>{rider.phone}</td>
-                                <td>{new Date(rider.created_at).toLocaleDateString()}</td>
+                                <td>{rider.mobile}</td>
+                                <td>{new Date(rider.createTime).toLocaleDateString()}</td>
                                 <td className="flex gap-2">
                                     <button
                                         onClick={() => setSelectedRider(rider)}
@@ -80,13 +82,13 @@ const Pending_Riders = () => {
                                         <FaEye />
                                     </button>
                                     <button
-                                        onClick={() => handleDecision(rider._id, "approve")}
+                                        onClick={() => handleDecision(rider._id, "approve", rider.email)}
                                         className="btn btn-sm btn-success"
                                     >
                                         <FaCheck />
                                     </button>
                                     <button
-                                        onClick={() => handleDecision(rider._id, "reject")}
+                                        onClick={() => handleDecision(rider._id, "reject", rider.email)}
                                         className="btn btn-sm btn-error"
                                     >
                                         <FaTimes />

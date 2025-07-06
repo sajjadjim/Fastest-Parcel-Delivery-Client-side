@@ -20,6 +20,9 @@ import RiderForm from "../Pages/Be A Raider/Rider_Form/RiderForm";
 import Active_riders from "../Pages/Dashboard/Active Riders/Active_riders";
 import Pending_Riders from "../Pages/Dashboard/Pending Riders/Pending_Riders";
 import Track_pacakage from "../Pages/Dashboard/Track Pacakage/Track_pacakage";
+import MakeAdmin from "../Pages/Dashboard/MakeAdmin/MakeAdmin";
+import AdminRoute from "../Routers/AdminRoute";
+import Forbidden from "../Pages/Forbidden Access/Forbidden";
 
 
 
@@ -56,6 +59,10 @@ const router = createBrowserRouter([
         path:'/riderForm',
         element: <PrivateRoute><RiderForm></RiderForm></PrivateRoute>,
         loader: () => fetch('../../public/DataAll/areaMap.json')
+      },
+      {
+        path:'/forbidden',
+        Component: Forbidden
       }
     ]
   },
@@ -103,6 +110,10 @@ const router = createBrowserRouter([
       {
         path:'/dashboard/track-package',
         Component: Track_pacakage
+      },
+      {
+        path:'make-admin',
+        element: <AdminRoute><MakeAdmin></MakeAdmin></AdminRoute>
       }
     ]
   }
