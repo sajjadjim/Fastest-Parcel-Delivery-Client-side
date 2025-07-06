@@ -4,7 +4,7 @@ import { Outlet } from 'react-router';
 import FastestDelivarylogo from '../Shared/WebsiteLogo/FastestDelivarylogo';
 import { Link } from 'react-router';
 import { FaHome, FaBox, FaCreditCard, FaSearchLocation, FaUserEdit } from 'react-icons/fa';
-
+import { RiMotorbikeFill } from "react-icons/ri";
 
 const DashBoardLayout = () => {
     return (
@@ -43,32 +43,44 @@ const DashBoardLayout = () => {
                 <label htmlFor="my-drawer-2" aria-label="close sidebar" className="drawer-overlay"></label>
                 <ul className="menu bg-base-200 text-base-content min-h-full w-80 p-4">
                     <FastestDelivarylogo></FastestDelivarylogo>
+
+
                     <li>
-                        <Link to='/' className="flex items-center gap-2">
-                            <FaHome /> Home
+                        <Link to='/' className="flex items-center gap-2 hover:text-blue-600 transition-all">
+                            <FaHome className="text-blue-500 group-hover:scale-110" /> Home
                         </Link>
                     </li>
                     <li>
-                        <NavLink to="/dashboard/myParcels" className="flex items-center gap-2">
-                            <FaBox /> My Parcels
+                        <NavLink to="/dashboard/myParcels" className="flex items-center gap-2 hover:text-purple-600 transition-all">
+                            <FaBox className="text-purple-500 group-hover:scale-110" /> My Parcels
                         </NavLink>
                     </li>
                     <li>
-                        <NavLink to="/dashboard/payment-history" className="flex items-center gap-2">
-                            <FaCreditCard /> Payment History
+                        <NavLink to="/dashboard/payment-history" className="flex items-center gap-2 hover:text-green-600 transition-all">
+                            <FaCreditCard className="text-green-500 group-hover:scale-110" /> Payment History
                         </NavLink>
                     </li>
                     <li>
-                        <NavLink to="/dashboard/track-package" className="flex items-center gap-2">
-                            <FaSearchLocation /> Track Package
+                        <NavLink to="/dashboard/track-package" className="flex items-center gap-2 hover:text-pink-600 transition-all">
+                            <FaSearchLocation className="text-pink-500 group-hover:scale-110" /> Track Package
                         </NavLink>
                     </li>
                     <li>
-                        <NavLink to="/dashboard/update-profile" className="flex items-center gap-2">
-                            <FaUserEdit /> Update Profile
+                        <NavLink to="/dashboard/update-profile" className="flex items-center gap-2 hover:text-yellow-600 transition-all">
+                            <FaUserEdit className="text-yellow-500 group-hover:scale-110" /> Update Profile
                         </NavLink>
                     </li>
 
+                    <li>
+                        <NavLink to="/dashboard/active-riders" className="flex items-center gap-2 hover:text-cyan-600 transition-all">
+                            <RiMotorbikeFill className="text-cyan-500 group-hover:scale-110" /> Active Riders
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink to="/dashboard/pending-riders" className="flex items-center gap-2 hover:text-red-600 transition-all">
+                            <RiMotorbikeFill className="text-red-500 group-hover:scale-110" /> Pending Riders
+                        </NavLink>
+                    </li>
                 </ul>
             </div>
         </div>

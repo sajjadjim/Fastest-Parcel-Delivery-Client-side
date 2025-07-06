@@ -90,79 +90,80 @@ const MyParcels = () => {
     }
 
     return (
-        <div className="p-4">
-            <h2 className="text-xl md:text-2xl font-bold mb-4 text-center">
-                📦 Parcel List
-            </h2>
+    <div className="p-4">
+        <h2 className="text-xl md:text-3xl font-bold mb-6 text-center text-indigo-700">
+            📦 My Parcel Dashboard
+        </h2>
 
-            <div className="overflow-x-auto">
-                <table className="min-w-full table-auto border border-gray-300 rounded-lg shadow-sm">
-                    <thead className=" text-sm md:text-base">
-                        <tr>
-                            <th className="p-2 border text-left">#</th>
-                            <th className="p-2 border text-left">Parcel Name</th>
-                            <th className="p-2 border text-left">Date</th>
-                            <th className="p-2 border text-left">Payment Status</th>
-                            <th className="p-2 border text-left">Actions</th>
+        <div className="overflow-x-auto bg-white shadow-lg rounded-lg border border-gray-200">
+            <table className="min-w-full text-sm md:text-base text-left text-gray-700">
+                <thead className="bg-indigo-100 text-indigo-700 uppercase tracking-wide">
+                    <tr>
+                        <th className="p-3">#</th>
+                        <th className="p-3">Parcel Name</th>
+                        <th className="p-3">Date</th>
+                        <th className="p-3">Payment</th>
+                        <th className="p-3 text-center">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {parcels.map((parcel, idx) => (
+                        <tr
+                            key={parcel._id}
+                            className="border-b hover:bg-gray-50 transition-all duration-150"
+                        >
+                            <td className="p-3">{idx + 1}</td>
+                            <td className="p-3 font-semibold">{parcel.parcelName}</td>
+                            <td className="p-3 text-sm text-gray-500">
+                                {new Date(parcel.date).toLocaleDateString()}
+                            </td>
+                            <td className="p-3">
+                                <span
+                                    className={`inline-block px-3 py-1 rounded-full text-xs font-semibold ${
+                                        parcel.payment_status === "paid"
+                                            ? "bg-green-100 text-green-800"
+                                            : "bg-red-100 text-red-800"
+                                    }`}
+                                >
+                                    {parcel.payment_status.toUpperCase()}
+                                </span>
+                            </td>
+                            <td className="p-3 space-x-2 text-center">
+                                <button
+                                    className="bg-blue-100 hover:bg-blue-200 text-blue-800 px-3 py-1 rounded-full text-xs font-medium transition"
+                                    onClick={() => handleUpdate(parcel._id)}
+                                >
+                                    ✏️ Update
+                                </button>
+                                <button
+                                    className="bg-red-100 hover:bg-red-200 text-red-700 px-3 py-1 rounded-full text-xs font-medium transition"
+                                    onClick={() => handleDelete(parcel._id)}
+                                >
+                                    🗑️ Delete
+                                </button>
+                                {parcel.payment_status === "unpaid" && (
+                                    <button
+                                        className="bg-yellow-100 hover:bg-yellow-200 text-yellow-700 px-3 py-1 rounded-full text-xs font-medium transition"
+                                        onClick={() => handlePayment(parcel._id)}
+                                    >
+                                        💳 Pay Now
+                                    </button>
+                                )}
+                            </td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        {parcels.map((parcel, idx) => (
-                            <tr key={parcel._id} className="border-t text-sm md:text-base">
-                                <td className="p-2 border">{idx + 1}</td>
-                                <td className="p-2 border">{parcel.parcelName}</td>
-                                <td className="p-2 border">{parcel.date}</td>
-                                <td className="p-2 border">
-                                    <span
-                                        className={`px-2 py-1 rounded text-white text-xs md:text-sm ${parcel.payment_status === "paid"
-                                            ? "bg-green-500"
-                                            : "bg-red-500"
-                                            }`}
-                                    >
-                                        {parcel.payment_status}
-                                    </span>
-                                </td>
-                                <td className="p-2 border space-x-2">
-                                    <button
-                                        className="px-2 md:px-3 py-1 cursor-pointer bg-green-400 rounded text-black text-xs md:text-sm"
-                                        onClick={() => handleUpdate(parcel._id)}
-                                    >
-                                        View
-                                    </button>
-                                    <button
-                                        className="px-2 md:px-3 py-1 cursor-pointer bg-yellow-400 rounded text-black text-xs md:text-sm"
-                                        onClick={() => handleUpdate(parcel._id)}
-                                    >
-                                        Update
-                                    </button>
-                                    <button
-                                        className="px-2 md:px-3 py-1 cursor-pointer bg-red-500 text-white rounded text-xs md:text-sm"
-                                        onClick={() => handleDelete(parcel._id)}
-                                    >
-                                        Delete
-                                    </button>
-                                    {/* if dont may then paid the products  */}
-                                    {
-                                        parcel.payment_status === "unpaid" && (
-                                            <button
-                                                className="px-2 md:px-3 py-1 cursor-pointer bg-blue-500 text-white rounded text-xs md:text-sm"
-                                                onClick={() => handlePayment(parcel._id)}
-                                            >
-                                                Pay Now
-                                            </button>
-                                        )}
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
+                    ))}
+                </tbody>
+            </table>
 
-                {parcels.length === 0 && (
-                    <p className="text-center py-6 text-gray-500">No parcels found.</p>
-                )}
-            </div>
+            {parcels.length === 0 && (
+                <p className="text-center py-8 text-gray-500">
+                    🚫 No parcels found.
+                </p>
+            )}
         </div>
-    );
+    </div>
+);
+
 };
 
 export default MyParcels;

@@ -33,7 +33,7 @@ const Login = () => {
                 }, 1000)
 
             }).catch(erro => {
-                console.log(erro)
+                alert(erro)
             })
     }
 
@@ -59,7 +59,7 @@ const Login = () => {
                 {/* Logo and Title */}
 
                 <h2 className="text-3xl font-bold text-center text-blue-700 mb-6">Welcome Back!</h2>
-                <form onSubmit={handleSubmit(onSubmitData)} className="space-y-5">
+                <form onSubmit={handleSubmit(onSubmitData)} className="space-y-5 text-black">
                     <div>
                         <label className="block  font-semibold mb-1">Email</label>
                         <input

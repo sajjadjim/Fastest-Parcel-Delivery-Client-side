@@ -15,6 +15,11 @@ import DashBoardLayout from "../Layout/DashBoardLayout";
 import MyParcels from "../Pages/Dashboard/MyParcels/MyParcels";
 import Payment from "../Pages/Dashboard/Payment/Payment";
 import PaymentHistory from "../Pages/Dashboard/Payment-History/PaymentHistory";
+import BeARider from "../Pages/Be A Raider/BeARider";
+import RiderForm from "../Pages/Be A Raider/Rider_Form/RiderForm";
+import Active_riders from "../Pages/Dashboard/Active Riders/Active_riders";
+import Pending_Riders from "../Pages/Dashboard/Pending Riders/Pending_Riders";
+import Track_pacakage from "../Pages/Dashboard/Track Pacakage/Track_pacakage";
 
 
 
@@ -41,6 +46,15 @@ const router = createBrowserRouter([
       {
         path: '/addparcel',
         element: <PrivateRoute><AddParcel></AddParcel></PrivateRoute>,
+        loader: () => fetch('../../public/DataAll/areaMap.json')
+      },
+      {
+        path: '/beARider',
+        Component: BeARider
+      },
+      {
+        path:'/riderForm',
+        element: <PrivateRoute><RiderForm></RiderForm></PrivateRoute>,
         loader: () => fetch('../../public/DataAll/areaMap.json')
       }
     ]
@@ -77,6 +91,18 @@ const router = createBrowserRouter([
       {
         path: 'payment-history',
         Component: PaymentHistory
+      },
+      {
+        path:'/dashboard/active-riders',
+        Component: Active_riders
+      },
+      {
+        path:'/dashboard/pending-riders',
+        Component: Pending_Riders
+      },
+      {
+        path:'/dashboard/track-package',
+        Component: Track_pacakage
       }
     ]
   }

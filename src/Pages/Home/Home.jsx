@@ -7,6 +7,7 @@ import Delivary_services from './Delivary_services'
 import BeMerchant from './Be Marchent/BeMerchant';
 import CustomerReview from './Customer Review/CustomerReview';
 import FaQ from './FaQ/FaQ';
+import ServiceGrid from './Services/ServiceGrid';
 
 
 const Home = () => {
@@ -27,6 +28,9 @@ const Home = () => {
             </div>
             <div>
                <ClientLogoMarquee></ClientLogoMarquee>
+            </div>
+            <div>
+                <ServiceGrid></ServiceGrid>
             </div>
             <div>
                 <Delivary_services></Delivary_services>

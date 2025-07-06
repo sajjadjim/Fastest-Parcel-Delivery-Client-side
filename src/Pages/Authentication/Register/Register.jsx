@@ -1,34 +1,70 @@
-import React, { useEffect } from 'react';
+import React, { use, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import useAuth from '../../../Hooks/useAuth';
 import { Link } from 'react-router';
 import { useLocation } from 'react-router';
 import { useNavigate } from 'react-router';
+import axios from 'axios';
+import useAxiosInstance from '../../../Hooks/useAxiosInstance';
+import { AuthContext } from '../../../Context/AuthContext';
 
 const Register = () => {
-        useEffect(() => {
-            document.title = "Register";
-        }, [])
-
-        
+    useEffect(() => {
+        document.title = "Register";
+    }, [])
+    const [imageUrl, setImageUrl] = useState('')
+    const { createUser, signInWithGoogle, updateUserProfile } = useAuth()
+    const { user } = use(AuthContext)
+    const axiosInstance = useAxiosInstance()
     const location = useLocation()
     const navigate = useNavigate()
+    // console.log(user)
 
     const { register
         , handleSubmit
     } = useForm();
 
-    const { createUser, signInWithGoogle } = useAuth()
-
     const onSubmitData = (data) => {
         console.log(data)
         createUser(data.email, data.password)
-            .then(result => {
+            .then(async (result) => {
                 console.log(result)
-                setTimeout(()=>{
-                navigate(`${location.state ? location.state : '/login'}`)
-            },1000)
+
+                // user profile update the user image 
+                const userProfile = {
+                    displayName: data.name,
+                    photoURL: imageUrl
+                }
+                // console.log(userProfile)
+
+                // create a user information and store do the database also 
+                const userInfo = {
+                    email: data.email,
+                    name: data.name,
+                    role: 'user',
+                    loginDate: new Date().toLocaleDateString(),
+                    lastLogin: new Date().toLocaleDateString(),
+                    image: imageUrl,
+                }
+                // then that post to the MongoDB Data base that function write here 
+                const userResponse = await axiosInstance.post('/users', userInfo)
+
+                console.log(userResponse.data)
+
+                // firebase Upload the information 
+                updateUserProfile(userProfile)
+                    .then((result) => {
+                        console.log(result)
+                    })
+                    .catch((erro) => {
+                        console.log(erro);
+                    })
+
+                setTimeout(() => {
+                    navigate(`${location.state ? location.state : '/login'}`)
+                }, 1000)
             })
+
             .catch(error => {
                 console.log(error)
             })
@@ -37,15 +73,42 @@ const Register = () => {
     // sing up account with google account 
     const handleGoogleSignUp = () => {
         signInWithGoogle()
-            .then(result => {
+            .then(async (result) => {
                 console.log(result)
-                 // after 1 seconds automatic navigate the user homepage  || user last Page 
-            setTimeout(()=>{
-                navigate(`${location.state ? location.state : '/'}`)
-            },2000)
+
+                const userInfo = {
+                    email: user.email,
+                    name: user.displayName,
+                    role: 'user',
+                    image: user.photoURL,
+                    loginDate: new Date().toISOString(),
+                    lastLogin: new Date().toISOString(),
+                }
+                // then that post to the MongoDB Data base that function write here 
+
+                // user Information Add To the mongoDB database 
+                const userResponse = await axiosInstance.post('/users', userInfo)
+                console.log(userResponse.data)
+                // after 1 seconds automatic navigate the user homepage  || user last Page 
+                setTimeout(() => {
+                    navigate(`${location.state ? location.state : '/'}`)
+                }, 2000)
             }).catch(errro => {
                 console.log(errro)
             })
+    }
+
+    const handleImageUpload = async (e) => {
+        const image = e.target.files[0];
+
+        const formData = new FormData();
+        formData.append('image', image);
+
+        // const url = `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_IMAGE_UPLOAD_API_KEY}`;
+
+        const res = await axios.post(`https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_IMAGE_UPLOAD_API_KEY}`, formData)
+        // console.log(res.data.data.display_url)
+        setImageUrl(res.data.data.display_url)
     }
 
 
@@ -71,9 +134,23 @@ const Register = () => {
                     </div>
                     <div>
                         <label htmlFor="email" className="block text-sm font-semibold  mb-1">
-                            Email
+                            Image Upload
                         </label>
                         <input
+                            onChange={handleImageUpload}
+                            type="file"
+                            id="image"
+                            name="image"
+                            required
+                            className="w-full px-4 py-2 border text-black border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400 transition "
+                            placeholder="Upload your image"
+                        />
+                    </div>
+                    <div>
+                        <label htmlFor="email" className="block text-sm font-semibold  mb-1">
+                            Email
+                        </label>
+                        <input onChange={handleImageUpload}
                             type="email"
                             {...register('email', { required: true })}
                             id="email"
@@ -103,7 +180,7 @@ const Register = () => {
                     >
                         Register
                     </button>
-                <p className='text-black  text-center'>Already have account <Link to='/login' className='text-blue-600 underline font-bold'>login</Link> </p>
+                    <p className='text-black  text-center'>Already have account <Link to='/login' className='text-blue-600 underline font-bold'>login</Link> </p>
                 </form>
 
                 <div className='md:mt-3'>
