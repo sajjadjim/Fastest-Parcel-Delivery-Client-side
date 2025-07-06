@@ -101,11 +101,11 @@ const router = createBrowserRouter([
       },
       {
         path:'/dashboard/active-riders',
-        Component: Active_riders
+        element:  <AdminRoute><Active_riders></Active_riders></AdminRoute>
       },
       {
         path:'/dashboard/pending-riders',
-        Component: Pending_Riders
+        element: <AdminRoute> <Pending_Riders></Pending_Riders></AdminRoute>
       },
       {
         path:'/dashboard/track-package',
