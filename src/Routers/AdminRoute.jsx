@@ -31,13 +31,19 @@ const AdminRoute = ({children}) => {
         return null;
     }
 
-    if (!user   || role !== 'admin') {
-        return <Navigate state={{ from: location.pathname }} to='/forbidden' replace />;
+    if (loading || roleLoading) {
+        return (
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
+                <span className="loading loading-spinner loading-xl"></span>
+            </div>
+        );
     }
 
-    else {
+    if (!user || role !== 'admin') {
+        return <Navigate state={{ from: location.pathname }} to='/forbidden' replace />;
+    }
         return children;
     }
-};
+;
 
 export default AdminRoute;

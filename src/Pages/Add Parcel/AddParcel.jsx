@@ -11,13 +11,10 @@ import { use } from "react";
 Modal.setAppElement("#root"); // IMPORTANT for accessibility
 
 const AddParcel = () => {
-
     const { user } = use(AuthContext);
-    console.log(user.email)
-
+    // console.log(user.email)
     // data fetch here code from using axios 
     const axiosSecure = UseAxiosSecure()
-
     // dynamic Data Fetch here the all area coverage delivary 
     const warehouseData = useLoaderData()
     // console.log(warehouseData)
@@ -56,18 +53,18 @@ const AddParcel = () => {
 
         if (type === "document") {
             return sameRegion
-                ? { charge: 60, label: "Within City" }
-                : { charge: 80, label: "Outside City/District" };
+                ? { amount: 60, label: "Within City" }
+                : { amount: 80, label: "Outside City/District" };
         } else {
             if (w <= 3) {
                 return sameRegion
-                    ? { charge: 110, label: "Within City" }
-                    : { charge: 150, label: "Outside City" };
+                    ? { amount: 110, label: "Within City" }
+                    : { amount: 150, label: "Outside City" };
             } else {
                 const extra = (w - 3) * 40;
                 return sameRegion
-                    ? { charge: 110 + extra, label: "Within City" }
-                    : { charge: 150 + extra + 40, label: "Outside City" };
+                    ? { amount: 110 + extra, label: "Within City" }
+                    : { amount: 150 + extra + 40, label: "Outside City" };
             }
         }
     };
@@ -93,6 +90,7 @@ const AddParcel = () => {
         setModalOpen(true); // Show modal
     };
 
+    // parcel send status confirm here 
     const confirmSubmit = () => {
         const data = pendingData;
         const costObj = calculatedCost;
@@ -103,20 +101,20 @@ const AddParcel = () => {
             `📦 Type: ${data.parcelType === "document" ? "Document" : "Non-Document"}\n` +
             `⚖️ Weight: ${weight} kg\n` +
             `🏙️ Delivery Zone: ${costObj.label}\n` +
-            `💸 Delivery Charge: ৳${costObj.charge}`,
+            `💸 Delivery Charge: ৳${costObj.amount}`,
             {
                 position: "top-right",
                 autoClose: 4000,
             }
         );
 
-        // console.log("Form submitted with data and delivery charge:", {
-        //   ...data,
-        //   parcelWeight: weight,
-        //   deliveryCharge: costObj,
-        // trackingId: `TRK${Date.now()}${Math.floor(Math.random() * 1000)}`,
-        // date: new Date().toISOString().split("T")[0],
-        // });
+        console.log("Form submitted with data and delivery charge:", {
+          ...data,
+          parcelWeight: weight,
+          deliveryCharge: costObj,
+        trackingId: `TRK${Date.now()}${Math.floor(Math.random() * 1000)}`,
+        date: new Date().toISOString().split("T")[0],
+        });
 
         const parcelData = {
             ...data,
@@ -126,6 +124,7 @@ const AddParcel = () => {
             deliveryCharge: costObj,
             trackingId: `TRK${Date.now()}${Math.floor(Math.random() * 1000)}`,
             date: new Date().toISOString().split("T")[0],
+            delivery_status: 'not_collected',
         }
 
         // console.log("ALl the data ", parceldata);
@@ -171,7 +170,7 @@ const AddParcel = () => {
                 className="max-w-6xl mx-auto p-4 md:p-8 space-y-6"
             >
                 <div>
-                    <h1 className="text-3xl font-bold text-center">Add Parcel</h1>
+                    <h1 className="text-3xl font-bold text-center">Send Parcel</h1>
                     <p className="text-center text-gray-500">Fill up the information</p>
                 </div>
 
@@ -206,6 +205,7 @@ const AddParcel = () => {
                         type="text"
                         placeholder="Parcel name"
                         {...register("parcelName")}
+                    
                         className="input"
                     />
                     <input
@@ -227,7 +227,7 @@ const AddParcel = () => {
                         Zone: <b>{liveCost.label}</b>
                     </p>
                     <p>
-                        Charge: <b>৳{liveCost.charge}</b>
+                        Charge: <b>৳{liveCost.amount}</b>
                     </p>
                 </div>
 
@@ -341,9 +341,7 @@ const AddParcel = () => {
                     Continue
                 </button>
             </form>
-
             <ToastContainer />
-
             {/* Custom Confirmation Modal */}
             <Modal
                 isOpen={modalOpen}
@@ -357,7 +355,7 @@ const AddParcel = () => {
                         <p>📦 Type: {pendingData.parcelType === "document" ? "Document" : "Non-Document"}</p>
                         <p>⚖️ Weight: {pendingData.parcelWeight} kg</p>
                         <p>🏙️ Zone: {calculatedCost.label}</p>
-                        <p>💸 Charge: ৳{calculatedCost.charge}</p>
+                        <p>💸 Charge: ৳{calculatedCost.amount}</p>
                     </div>
                 )}
                 <div className="mt-6 flex justify-end gap-4">

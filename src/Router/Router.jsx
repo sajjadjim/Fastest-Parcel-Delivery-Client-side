@@ -23,6 +23,8 @@ import Track_pacakage from "../Pages/Dashboard/Track Pacakage/Track_pacakage";
 import MakeAdmin from "../Pages/Dashboard/MakeAdmin/MakeAdmin";
 import AdminRoute from "../Routers/AdminRoute";
 import Forbidden from "../Pages/Forbidden Access/Forbidden";
+import AssignRider from "../Pages/Dashboard/Asign Router/AssignRider";
+
 
 
 
@@ -100,20 +102,24 @@ const router = createBrowserRouter([
         Component: PaymentHistory
       },
       {
-        path:'/dashboard/active-riders',
+        path:'active-riders',
         element:  <AdminRoute><Active_riders></Active_riders></AdminRoute>
       },
       {
-        path:'/dashboard/pending-riders',
+        path:'pending-riders',
         element: <AdminRoute> <Pending_Riders></Pending_Riders></AdminRoute>
       },
       {
-        path:'/dashboard/track-package',
+        path:'track-package',
         Component: Track_pacakage
       },
       {
         path:'make-admin',
         element: <AdminRoute><MakeAdmin></MakeAdmin></AdminRoute>
+      },
+      {
+        path:'assignRider',
+        element: <AdminRoute><AssignRider></AssignRider></AdminRoute>
       }
     ]
   }

@@ -89,6 +89,12 @@ console.log(role)
                         </NavLink>
                     </li>
                     <li>
+                        <NavLink to="/dashboard/assignRider">
+                            <RiMotorbikeFill className="inline-block mr-2 text-yellow-500" />
+                            Assign Rider
+                        </NavLink>
+                    </li>
+                    <li>
                         <NavLink to="/dashboard/make-Admin">
                             <FaUserShield className="inline-block mr-2" />
                             Make Admin
