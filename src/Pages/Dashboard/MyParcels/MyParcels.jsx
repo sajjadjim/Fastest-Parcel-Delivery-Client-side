@@ -40,7 +40,7 @@ const MyParcels = () => {
             confirmButtonText: "Yes, delete it!",
         }).then(async (result) => {
             if (result.isConfirmed) {
-                const res = await fetch(`http://localhost:3000/parcels/${id}`, {
+                const res = await fetch(`https://pick-on-server.vercel.app/parcels/${id}`, {
                     method: "DELETE",
                 });
 
@@ -67,7 +67,7 @@ const MyParcels = () => {
         });
 
         if (payment_status) {
-            await fetch(`http://localhost:5000/parcels/${id}`, {
+            await fetch(`https://pick-on-server.vercel.app/parcels/${id}`, {
                 method: "PATCH",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ payment_status }),
