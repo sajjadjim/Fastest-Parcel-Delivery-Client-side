@@ -219,7 +219,7 @@ const RiderForm = () => {
 
                     <button
                         type="submit"
-                        className="w-full bg-red-600 text-white py-2 rounded hover:bg-red-700 transition"
+                        className="w-full cursor-pointer bg-red-600 text-white py-2 rounded hover:bg-red-700 transition"
                     >
                         Submit
                     </button>

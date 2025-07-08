@@ -3,13 +3,13 @@ import { NavLink } from 'react-router';
 import { Outlet } from 'react-router';
 import FastestDelivarylogo from '../Shared/WebsiteLogo/FastestDelivarylogo';
 import { Link } from 'react-router';
-import { FaHome, FaBox, FaCreditCard, FaSearchLocation, FaUserEdit , FaUserShield} from 'react-icons/fa';
+import { FaHome, FaBox, FaCreditCard, FaSearchLocation, FaUserEdit, FaUserShield , FaTasks, FaWallet , FaCheckCircle } from 'react-icons/fa';
 import { RiMotorbikeFill } from "react-icons/ri";
 import useUserRole from '../Hooks/useUserRole';
 
 const DashBoardLayout = () => {
-const {role , roleLoading} = useUserRole();
-console.log(role)
+    const { role, roleLoading } = useUserRole();
+    console.log(role)
 
     return (
         <div className="drawer lg:drawer-open">
@@ -74,32 +74,54 @@ console.log(role)
                             <FaUserEdit className="text-yellow-500 group-hover:scale-110" /> Update Profile
                         </NavLink>
                     </li>
+                    {/* rider links */}
+                    {!roleLoading && role === 'rider' && <>
+                        <li>
+                            <NavLink to="/dashboard/pending-deliveries">
+                                <FaTasks className="inline-block mr-2" />
+                                Pending Deliveries
+                            </NavLink>
+                        </li>
+                        <li>
+                            <NavLink to="/dashboard/completed-deliveries">
+                                <FaCheckCircle className="inline-block mr-2" />
+                                Completed Deliveries
+                            </NavLink>
+                        </li>
+                        <li>
+                            <NavLink to="/dashboard/my-earnings">
+                                <FaWallet className="inline-block mr-2" />
+                                My Earnings
+                            </NavLink>
+                        </li>
+                    </>}
+                    {/* admin Link  */}
 
                     {
-                        !roleLoading && role === 'admin' && 
+                        !roleLoading && role === 'admin' &&
                         <>
-                        <li>
-                        <NavLink to="/dashboard/active-riders" className="flex items-center gap-2 hover:text-cyan-600 transition-all">
-                            <RiMotorbikeFill className="text-cyan-500 group-hover:scale-110" /> Active Riders
-                        </NavLink>
-                    </li>
-                    <li>
-                        <NavLink to="/dashboard/pending-riders" className="flex items-center gap-2 hover:text-red-600 transition-all">
-                            <RiMotorbikeFill className="text-red-500 group-hover:scale-110" /> Pending Riders
-                        </NavLink>
-                    </li>
-                    <li>
-                        <NavLink to="/dashboard/assignRider">
-                            <RiMotorbikeFill className="inline-block mr-2 text-yellow-500" />
-                            Assign Rider
-                        </NavLink>
-                    </li>
-                    <li>
-                        <NavLink to="/dashboard/make-Admin">
-                            <FaUserShield className="inline-block mr-2" />
-                            Make Admin
-                        </NavLink>
-                    </li>
+                            <li>
+                                <NavLink to="/dashboard/active-riders" className="flex items-center gap-2 hover:text-cyan-600 transition-all">
+                                    <RiMotorbikeFill className="text-cyan-500 group-hover:scale-110" /> Active Riders
+                                </NavLink>
+                            </li>
+                            <li>
+                                <NavLink to="/dashboard/pending-riders" className="flex items-center gap-2 hover:text-red-600 transition-all">
+                                    <RiMotorbikeFill className="text-red-500 group-hover:scale-110" /> Pending Riders
+                                </NavLink>
+                            </li>
+                            <li>
+                                <NavLink to="/dashboard/assignRider">
+                                    <RiMotorbikeFill className="inline-block mr-2 text-yellow-500" />
+                                    Assign Rider
+                                </NavLink>
+                            </li>
+                            <li>
+                                <NavLink to="/dashboard/make-Admin">
+                                    <FaUserShield className="inline-block mr-2" />
+                                    Make Admin
+                                </NavLink>
+                            </li>
                         </>
                     }
                 </ul>

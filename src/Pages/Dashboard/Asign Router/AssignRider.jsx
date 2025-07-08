@@ -10,7 +10,7 @@ const AssignRider = () => {
     const [riders, setRiders] = useState([]);
     const [loadingRiders, setLoadingRiders] = useState(false);
     const queryClient = useQueryClient();
-
+console.log("ALl pending Rider ,",riders)
     const { data: parcels = [], isLoading } = useQuery({
         queryKey: ["assignableParcels"],
         queryFn: async () => {
@@ -30,6 +30,7 @@ const AssignRider = () => {
             const res = await axiosSecure.patch(`/parcels/${parcelId}/assign`, {
                 riderId: rider._id,
                 riderName: rider.name,
+                riderEmail : rider.email,
             });
             return res.data;
         },
