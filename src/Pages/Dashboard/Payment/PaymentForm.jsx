@@ -7,10 +7,12 @@ import { use } from 'react';
 import { AuthContext } from '../../../Context/AuthContext';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router';
+import useTrackingLogger from '../../../Hooks/useTrackingLogger';
 
 const PaymentForm = () => {
 
     const { user } = use(AuthContext)
+    const {logTracking} = useTrackingLogger();
     const navigate = useNavigate();
     const axiosSecure = UseAxiosSecure()
 
@@ -108,6 +110,13 @@ const PaymentForm = () => {
                             html: `<strong>Transaction ID:</strong> <code>${paymentData.transactionId}</code>`,
                             confirmButtonText: 'Go to My Parcels',
                         });
+
+                         await logTracking({
+                        trackingId: parcelPaymentInfo.trackingId,
+                        status: "Payment Done",
+                        details: `Created by ${user.displayName}`,
+                        updated_by: user.email,
+                    });
 
                         // ✅ Redirect to /myParcels
                         navigate('/dashboard/myParcels');

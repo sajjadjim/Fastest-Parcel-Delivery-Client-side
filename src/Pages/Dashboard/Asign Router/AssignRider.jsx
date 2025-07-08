@@ -1,16 +1,22 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { FaMotorcycle } from "react-icons/fa";
-import { useState } from "react";
+import { use, useState } from "react";
 import Swal from "sweetalert2";
 import UseAxiosSecure from "../../../Hooks/UseAxiosSecure";
+import useTrackingLogger from "../../../Hooks/useTrackingLogger";
+import { AuthContext } from "../../../Context/AuthContext";
 
 const AssignRider = () => {
     const axiosSecure = UseAxiosSecure();
     const [selectedParcel, setSelectedParcel] = useState(null);
+    const [selectedRider, setSelectedRider] = useState(null);
     const [riders, setRiders] = useState([]);
     const [loadingRiders, setLoadingRiders] = useState(false);
     const queryClient = useQueryClient();
-console.log("ALl pending Rider ,",riders)
+    const { logTracking } = useTrackingLogger()
+    const { user } = use(AuthContext)
+
+    console.log("ALl pending Rider ,", riders)
     const { data: parcels = [], isLoading } = useQuery({
         queryKey: ["assignableParcels"],
         queryFn: async () => {
@@ -27,16 +33,28 @@ console.log("ALl pending Rider ,",riders)
 
     const { mutateAsync: assignRider } = useMutation({
         mutationFn: async ({ parcelId, rider }) => {
+            setSelectedRider(rider);
             const res = await axiosSecure.patch(`/parcels/${parcelId}/assign`, {
                 riderId: rider._id,
                 riderName: rider.name,
-                riderEmail : rider.email,
+                riderEmail: rider.email,
             });
             return res.data;
         },
-        onSuccess: () => {
+        onSuccess: async () => {
             queryClient.invalidateQueries(["assignableParcels"]);
             Swal.fire("Success", "Rider assigned successfully!", "success");
+
+            // parcel tracking presnet condition 
+            const parcelData = parcels.find((p) => p._id === selectedParcel._id)
+
+            await logTracking({
+                trackingId: parcelData.trackingId,
+                status: "rider_assigned",
+                details: `Assign rider  : ${selectedRider.name}`,
+                updated_by: user.email,
+            })
+
             document.getElementById("assignModal").close();
         },
         onError: () => {

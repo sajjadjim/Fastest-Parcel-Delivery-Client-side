@@ -7,8 +7,19 @@ import { useLoaderData } from "react-router";
 import UseAxiosSecure from "../../Hooks/UseAxiosSecure";
 import { AuthContext } from "../../Context/AuthContext";
 import { use } from "react";
+import useTrackingLogger from "../../Hooks/useTrackingLogger";
+import { Navigate } from "react-router";
+import { useNavigate } from "react-router";
 
 Modal.setAppElement("#root"); // IMPORTANT for accessibility
+
+
+const generateTrackingID = () => {
+    const date = new Date();
+    const datePart = date.toISOString().split("T")[0].replace(/-/g, "");
+    const rand = Math.random().toString(36).substring(2, 7).toUpperCase();
+    return `PCL-${datePart}-${rand}`;
+};
 
 const AddParcel = () => {
     const { user } = use(AuthContext);
@@ -18,6 +29,8 @@ const AddParcel = () => {
     // dynamic Data Fetch here the all area coverage delivary 
     const warehouseData = useLoaderData()
     // console.log(warehouseData)
+    const { logTracking } = useTrackingLogger()
+    const navigate = useNavigate()
 
     const { register, handleSubmit, watch } = useForm();
 
@@ -107,14 +120,16 @@ const AddParcel = () => {
                 autoClose: 4000,
             }
         );
+        const trackingId = generateTrackingID()
 
-        console.log("Form submitted with data and delivery charge:", {
-          ...data,
-          parcelWeight: weight,
-          deliveryCharge: costObj,
-        trackingId: `TRK${Date.now()}${Math.floor(Math.random() * 1000)}`,
-        date: new Date().toISOString().split("T")[0],
-        });
+        // console.log("Form submitted with data and delivery charge:", {
+        //     ...data,
+        //     parcelWeight: weight,
+        //     deliveryCharge: costObj,
+        //     trackingId: trackingId,
+        //     date: new Date().toISOString().split("T")[0],
+        // });
+        // tracking ID Unique genarate that 
 
         const parcelData = {
             ...data,
@@ -122,7 +137,7 @@ const AddParcel = () => {
             payment_status: 'unpaid',
             parcelWeight: weight,
             deliveryCharge: costObj,
-            trackingId: `TRK${Date.now()}${Math.floor(Math.random() * 1000)}`,
+            trackingId: trackingId,
             date: new Date().toISOString().split("T")[0],
             delivery_status: 'not_collected',
         }
@@ -131,12 +146,25 @@ const AddParcel = () => {
 
         //   save data do the server 
         axiosSecure.post('/parcels', parcelData)
-            .then((res) => {
+            .then(async (res) => {
                 if (res.data && res.data.insertedId) {
                     toast.success("🎉 Parcel request added successfully!", {
                         position: "top-right",
-                        autoClose: 3000,
+                        autoClose: 2000,
                     });
+                    // const trackingId = trackingId;
+                    // Parcel Tracking Log here after tracking the parcel 
+                    await logTracking({
+                        trackingId: parcelData.trackingId,
+                        status: "parcel_created",
+                        details: `Created by ${user.displayName}`,
+                        updated_by: user.email,
+                    })
+
+                    setTimeout(() => {
+                        navigate("/dashboard/myParcels");
+                    }, 1500);
+
                 } else {
                     toast.error("❌ Failed to add parcel request.", {
                         position: "top-right",
@@ -205,7 +233,7 @@ const AddParcel = () => {
                         type="text"
                         placeholder="Parcel name"
                         {...register("parcelName")}
-                    
+
                         className="input"
                     />
                     <input

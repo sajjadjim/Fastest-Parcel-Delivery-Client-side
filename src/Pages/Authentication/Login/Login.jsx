@@ -1,16 +1,17 @@
 import React, { use, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { AuthContext } from '../../../Context/AuthContext';
 import { Link } from 'react-router';
 import { useLocation } from 'react-router';
 import { useNavigate } from 'react-router';
+import useAxiosInstance from '../../../Hooks/useAxiosInstance';
+import { AuthContext } from '../../../Context/AuthContext';
 // import { data } from 'react-router';
 
 const Login = () => {
     useEffect(() => {
         document.title = "Login";
     }, [])
-
+    const axiosInstance = useAxiosInstance()
     const location = useLocation()
     const navigate = useNavigate()
 
@@ -18,7 +19,7 @@ const Login = () => {
         , handleSubmit,
         formState: { errors }
     } = useForm();
-    const { signIn, signInWithGoogle } = use(AuthContext)
+    const { user, signIn, signInWithGoogle } = use(AuthContext)
 
     const onSubmitData = (data) => {
         // console.log(data);
@@ -39,8 +40,22 @@ const Login = () => {
 
     const handleLoginwithGoogle = () => {
         signInWithGoogle()
-            .then(result => {
+            .then(async (result) => {
                 console.log(result)
+
+                const userInfo = {
+                    email: user.email,
+                    name: user.displayName,
+                    role: 'user',
+                    image: user.photoURL,
+                    loginDate: new Date().toISOString(),
+                    lastLogin: new Date().toISOString(),
+                }
+                // then that post to the MongoDB Data base that function write here 
+
+                // user Information Add To the mongoDB database 
+                const userResponse = await axiosInstance.post('/users', userInfo)
+                console.log(userResponse.data)
 
                 // after 1 seconds automatic navigate the user homepage  || user last Page 
                 setTimeout(() => {
